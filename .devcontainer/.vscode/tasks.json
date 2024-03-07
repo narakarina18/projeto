@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CHECK",
+            "type": "shell",
+            "command": "sudo php artisan octane:reload",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+        },
+    ]
+}

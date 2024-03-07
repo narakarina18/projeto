@@ -1,0 +1,68 @@
+version: '2'
+
+services:
+  app:
+    container_name: laravel
+    image: 'giovanegurgel/stable-laravel-swoole'
+    ports:
+      - '8009:80'
+      - '5173:5173'
+    environment:
+      - TZ='America/Fortaleza'
+      - LARAVEL_SKIP_DATABASE=yes
+    volumes:
+      - './project:/app'
+      - '.devcontainer/.vscode/:/tmp/.vscode'
+    networks:
+      - netlara
+
+  mailpit:
+    container_name: mailpit
+    image: 'axllent/mailpit:latest'
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+    environment:
+      - TZ='America/Fortaleza'
+    networks:
+      - netlara
+  # mysql:
+  #   container_name: mysql
+  #   image: mysql:8.0-debian
+  #   restart: unless-stopped
+  #   volumes:
+  #     - .devcontainer/mysql:/var/lib/mysql:delegated
+  #   ports:
+  #     - 3306:3306
+  #   environment:
+  #     - TZ='America/Fortaleza'
+  #     - MYSQL_DATABASE=aula_mysql
+  #     - MYSQL_USER=aula_mysql
+  #     - MYSQL_PASSWORD=aula_mysql
+  #     - MYSQL_ROOT_PASSWORD=aula_mysql
+  #   networks:
+  #     - netlara
+
+  # dbgate:
+  #   image: dbgate/dbgate
+  #   container_name: dbgate
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8010:3000
+  #   volumes:
+  #     - .devcontainer/dbgate:/root/.dbgate
+  #   environment:
+  #     CONNECTIONS: con1
+  #
+  #     LABEL_con1: MySQL
+  #     SERVER_con1: mysql
+  #     USER_con1: root
+  #     PASSWORD_con1: aula_mysql
+  #     PORT_con1: 3306
+  #     ENGINE_con1: mysql@dbgate-plugin-mysql  
+  #   networks:
+  #     - netlara
+
+networks:
+  netlara:
+    driver: bridge
